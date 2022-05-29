@@ -24,9 +24,13 @@ class RecipeController extends Controller
 
     public function store(Request $request)
     {
+        $validated = $request->validate([
+            'name' => 'required',
+            'description' => 'required',
+        ]);
         $recipe = new Recipe([
-            'name' => $request->name,
-            'description' => $request->description,
+            'name' => $validated['name'],
+            'description' => $validated['description'],
             'published' => isset($request->published['published']),
         ]);
 
@@ -51,8 +55,12 @@ class RecipeController extends Controller
 
     public function update(Request $request, Recipe $recipe)
     {
-        $recipe->name = $request->name;
-        $recipe->description = $request->description;
+        $validated = $request->validate([
+            'name' => 'required',
+            'description' => 'required',
+        ]);
+        $recipe->name = $validated['name'];
+        $recipe->description = $validated['description'];
         $recipe->published = isset($request->published['published']) ;
         $recipe->save();
         return redirect()->route('recipe.show', ['recipe' => $recipe]);

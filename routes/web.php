@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PageController;
 use App\Http\Controllers\RecipeController;
+use App\Http\Controllers\CommentController;
 
 
 /*
@@ -31,5 +32,11 @@ Route::controller(RecipeController::class)->group(function () {
         Route::get('/edit/{recipe}', 'edit')->name('recipe.edit');
         Route::post('/edit/{recipe}', 'update');
         Route::get('/delete/{recipe}', 'destroy')->name('recipe.delete');
+    });
+});
+
+Route::controller(CommentController::class)->group(function () {
+    Route::prefix('comments')->group(function () {
+        Route::post('/store', 'store')->name('comments.store');
     });
 });
